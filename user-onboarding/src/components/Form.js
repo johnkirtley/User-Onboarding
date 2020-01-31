@@ -19,14 +19,20 @@ const UserForm = ({ values, errors, touched, status }) => {
                 {/* Name Input */}
                 <label htmlFor="name">Name:</label>
                 <Field type="text" name="name" id="name" />
+                {touched.name && errors.name && (
+                    <p>{errors.name}</p>
+                )}
 
                 {/* Email Input */}
                 <label htmlFor="email">Email:</label>
                 <Field type="email" name="email" id="email" />
+                {touched.email && errors.email && (
+                    <p>{errors.email}</p>
+                )}
 
                 {/* Password Input */}
                 <label htmlFor="password">Password:</label>
-                <Field type="text" name="password" id="password" />
+                <Field type="password" name="password" id="password" />
 
                 {/* TOS Checkbox */}
                 <label htmlFor="tos">Terms of Service</label>
@@ -57,7 +63,8 @@ const FormikUserForm = withFormik({
         };
     },
     validationSchema: Yup.object().shape({
-        name: Yup.string().required("Name is required")
+        name: Yup.string().min(2, 'Must be at least 2 characters').required("Name is required"),
+        email: Yup.string().email().required('Email is required')
     }),
     handleSubmit(values, { setStatus }) {
         console.log("Submitting", values);
